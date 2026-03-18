@@ -246,3 +246,73 @@ header p {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     z-index: 1001;
 }
+
+/* ── Mobile fixes ── */
+@media (max-width: 768px) {
+
+    /* 1. Fix the notorious mobile 100vh / address-bar bug */
+    .container {
+        height: 100dvh;
+        /* dynamic viewport height where supported */
+    }
+
+    /* 2. Let content-heavy pages grow beyond one screen */
+    .page {
+        height: auto;
+        min-height: 100dvh;
+        padding: 4rem 1.25rem 2rem;
+        /* extra top padding so content clears the toggle btn */
+    }
+
+    /* 3. Hide side nav – there's no room for it */
+    #side-nav {
+        display: none;
+    }
+
+    /* 4. Move theme toggle so it doesn't overlap nav links */
+    #theme-toggle {
+        top: 12px;
+        right: 12px;
+    }
+
+    /* 5. Scale down headline */
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    header p {
+        font-size: 1rem;
+    }
+
+    /* 6. Stack nav links vertically */
+    .main-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .main-nav a {
+        margin: 0;
+        font-size: 0.95rem;
+    }
+
+    /* 7. Section headings */
+    .content-section h2 {
+        font-size: 1.5rem;
+    }
+
+    /* 8. Cards */
+    .card {
+        padding: 1rem;
+    }
+
+    .card h3 {
+        font-size: 1.15rem;
+    }
+
+    /* 9. Skills grid – single column on small screens */
+    .skills-container {
+        grid-template-columns: 1fr;
+    }
+}
