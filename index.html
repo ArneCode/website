@@ -25,6 +25,7 @@
                 <a href="#about">About</a>
                 <a href="#projects">Projects</a>
                 <a href="#experience">Experience</a>
+                <a href="#contests">Contests</a>
                 <a href="#education">Education</a>
                 <a href="#skills">Skills</a>
             </nav>
@@ -35,7 +36,6 @@
                     <a href="https://blog.arnedebo.com" target="_blank" rel="noopener noreferrer"><i
                             class="fas fa-blog"></i> Blog</a>
                     <a href="mailto:arne@deborman.de"><i class="fas fa-envelope"></i> Email</a>
-                    <a href="cv.pdf" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> CV</a>
                 </section>
             </main>
         </section>
@@ -58,28 +58,42 @@
             <div class="content-section">
                 <h2>Projects</h2>
                 <div class="card">
-                    <h3><a href="https://github.com/atigun64/electricity_price_optimizer" target="_blank"
+                    <a href="https://github.com/ArneCode/strompreis-optimierer" target="_blank"
+                        rel="noopener noreferrer" class="card-github"><i class="fab fa-github"></i></a>
+                    <h3><a href="https://github.com/ArneCode/strompreis-optimierer" target="_blank"
                             rel="noopener noreferrer">Smart-Home Optimization</a></h3>
-                    <p>Ongoing. Built an optimization engine to schedule appliance usage and EV charging under solar,
-                        battery, and grid constraints. Modeled cost minimization using simulated annealing heuristics
-                        and flow-based formulations.</p>
+                    <p class="card-sub-header">2026 · University Project · Team of 5</p>
+                    <p>Co-designed and built a web platform for smart-home energy management. Responsibilities included
+                        co-designing the system architecture (Python/FastAPI backend + Rust optimization core),
+                        implementing the PyO3 bridge between the two components, and developing the core optimization
+                        logic — a hybrid of Simulated Annealing and Min-Cost-Max-Flow that produces 24-hour schedules
+                        minimizing electricity costs under solar, battery, and grid constraints. Also handled the
+                        database layer with SQLAlchemy, including schema design and data persistence for devices and
+                        energy plans.</p>
                     <div class="tags">
-                        <span>Rust</span><span>Optimization Algorithms</span><span>Flow-based Formulations</span>
+                        <span>Rust</span><span>Python</span><span>FastAPI</span><span>PyO3</span>
+                        <span>SQLAlchemy</span><span>Simulated Annealing</span><span>Min-Cost-Max-Flow</span>
                     </div>
                 </div>
                 <div class="card">
+                    <a href="https://github.com/ArneCode/rust-calculator-yew" target="_blank" rel="noopener noreferrer"
+                        class="card-github"><i class="fab fa-github"></i></a>
                     <h3><a href="https://github.com/ArneCode/rust-calculator-yew" target="_blank"
-                            rel="noopener noreferrer">Rust Equation Solver & UI</a></h3>
+                            rel="noopener noreferrer">Rust Equation Solver</a></h3>
+                    <p class="card-sub-header">2023 · Personal Project</p>
                     <p>Developed an automated solver that treats equations as symbolic structures. Implemented a search
                         algorithm to identify sequences of equivalence transformations that reduce equations to their
-                        solutions, modeling human equation solving.</p>
+                        solutions, modeling the step-by-step process of human equation solving.</p>
                     <div class="tags">
                         <span>Rust</span><span>Symbolic Computation</span><span>WebAssembly</span>
                     </div>
                 </div>
                 <div class="card">
+                    <a href="https://github.com/ArneCode/pinball" target="_blank" rel="noopener noreferrer"
+                        class="card-github"><i class="fab fa-github"></i></a>
                     <h3><a href="https://github.com/ArneCode/pinball" target="_blank" rel="noopener noreferrer">Pinball
                             Simulation</a></h3>
+                    <p class="card-sub-header">2024 · Personal Project</p>
                     <p>Developed an equation-based pinball simulation featuring a custom programming language for
                         behavior definition.</p>
                     <div class="tags">
@@ -94,10 +108,10 @@
                 <h2>Experience</h2>
                 <div class="card">
                     <h3>Working Student, Team Account</h3>
-                    <p class="card-sub-header">ITscope GmbH | June 2025 --- November 2025</p>
+                    <p class="card-sub-header">ITscope GmbH | June 2025 – November 2025</p>
                     <p>Designed and implemented automated tests for newly developed features. Extended CRM data
-                        synchronization to support new contract workflows. Improved the contract management module and
-                        migrated an existing microservice to Java 21, resolving deprecated APIs and improving
+                        synchronization to support new contract workflows. Improved the contract management module
+                        and migrated an existing microservice to Java 21, resolving deprecated APIs and improving
                         maintainability.</p>
                     <div class="tags">
                         <span>Java</span><span>Spring Boot</span><span>Vaadin</span><span>Microservices</span>
@@ -105,7 +119,7 @@
                 </div>
                 <div class="card">
                     <h3>Trainee Software Developer</h3>
-                    <p class="card-sub-header">ITscope GmbH | September 2024 --- October 2024</p>
+                    <p class="card-sub-header">ITscope GmbH | September 2024 – October 2024</p>
                     <p>Refactored an Excel-based sales export tool, including GUI, business logic, and SQL queries.
                         Collaborated on feature design and Java implementation within a Scrum-based development process.
                         Revised and localized transactional email templates according to updated design specifications.
@@ -117,10 +131,43 @@
                 <div class="card">
                     <h3>Working Student, Service Calculation</h3>
                     <p class="card-sub-header">Mlog Logistics GmbH | July 2023 and September 2023</p>
-                    <p>Revised and extended the company-wide service calculation tool in close coordination with process
-                        owners, improving correctness and maintainability.</p>
+                    <p>Revised and extended the company-wide service calculation tool in close coordination with
+                        process owners, improving correctness and maintainability.</p>
                     <div class="tags">
                         <span>Excel VBA</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page" id="contests">
+            <div class="content-section">
+                <h2>Contests</h2>
+                <div class="card">
+                    <h3>NWERC 2025 — 23rd Place</h3>
+                    <p class="card-sub-header">Northwestern Europe Regional Contest · 2025 · Team: KITset</p>
+                    <p>Competed in one of Europe's most prestigious ICPC regional contests, placing 23rd out of all
+                        participating teams from universities across Northwestern Europe.</p>
+                    <div class="tags">
+                        <span>ICPC</span><span>C++</span><span>Competitive Programming</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Wintercontest 2026 — 5th Place</h3>
+                    <p class="card-sub-header">German Nationwide Contest · 2026 · Team: KITset</p>
+                    <p>Placed 5th in a nationwide German competitive programming contest.</p>
+                    <div class="tags">
+                        <span>C++</span><span>Competitive Programming</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>GCPC 2025 — 7th Place</h3>
+                    <p class="card-sub-header">German Collegiate Programming Contest · July 2025 · Team: Team Above
+                        Stole
+                        Our Solutions</p>
+                    <p>Placed 7th at the German Collegiate Programming Contest.</p>
+                    <div class="tags">
+                        <span>ICPC</span><span>C++</span><span>Competitive Programming</span>
                     </div>
                 </div>
             </div>
@@ -153,7 +200,7 @@
                     </div>
                     <div class="skill-category">
                         <h3>Technologies & Tools</h3>
-                        <p>Git, Docker, MongoDB, WebAssembly</p>
+                        <p>Git, Docker, MongoDB, WebAssembly, FastAPI, SQLAlchemy, PyO3</p>
                     </div>
                     <div class="skill-category">
                         <h3>Languages</h3>

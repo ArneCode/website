@@ -141,6 +141,7 @@ header p {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     border-left: 4px solid var(--accent);
+    position: relative;
 }
 
 .card h3 {
@@ -315,4 +316,17 @@ header p {
     .skills-container {
         grid-template-columns: 1fr;
     }
+}
+
+.card-github {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--text-dim);
+    font-size: 1.4rem;
+    transition: color 0.3s ease;
+}
+
+.card-github:hover {
+    color: var(--accent);
 }

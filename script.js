@@ -1,4 +1,20 @@
+
 document.addEventListener('DOMContentLoaded', () => {
+    let isNavigating = false;
+
+    // Intercept nav link clicks
+    document.querySelectorAll('.main-nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                isNavigating = true;
+                target.scrollIntoView({ behavior: 'smooth' });
+                // Re-enable observer snapping after scroll settles
+                setTimeout(() => { isNavigating = false; }, 1000);
+            }
+        });
+    });
     const container = document.querySelector('.container');
     const pages = document.querySelectorAll('.page');
     const sideNav = document.getElementById('side-nav');
@@ -37,12 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     dots.forEach(dot => dot.classList.remove('active'));
                     dots[index].classList.add('active');
 
-                    // Optional: Auto-snap behavior
-                    // We use a small timeout to ensure we don't fight the user's finger/wheel
-                    clearTimeout(window.scrollTimeout);
-                    window.scrollTimeout = setTimeout(() => {
-                        entry.target.scrollIntoView({ behavior: 'smooth' });
-                    }, 100);
+                    if (!isNavigating) {
+                        // Optional: Auto-snap behavior
+                        // We use a small timeout to ensure we don't fight the user's finger/wheel
+                        clearTimeout(window.scrollTimeout);
+                        window.scrollTimeout = setTimeout(() => {
+                            entry.target.scrollIntoView({ behavior: 'smooth' });
+                        }, 100);
+                    }
                 }
             });
         }, observerOptions);
