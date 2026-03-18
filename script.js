@@ -1,155 +1,94 @@
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.container');
+    const pages = document.querySelectorAll('.page');
+    const sideNav = document.getElementById('side-nav');
 
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-
-        if (targetElement) {
-            const pageIndex = Array.from(pages).indexOf(targetElement);
-            if (pageIndex > -1) {
-                scrollToPage(pageIndex);
-            }
-        }
-    });
-});
-
-const container = document.querySelector('.container');
-const pages = document.querySelectorAll('.page');
-const sideNav = document.getElementById('side-nav');
-let navDots = [];
-let currentPageIndex = 0;
-let isScrolling = false;
-
-function updateActiveNav() {
-    navDots.forEach((dot, index) => {
-        if (index === currentPageIndex) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
-    });
-}
-
-function createSideNav() {
+    // 1. Generate Nav Dots
     pages.forEach((page, index) => {
         const dot = document.createElement('div');
         dot.classList.add('nav-dot');
-        dot.addEventListener('click', () => scrollToPage(index));
+        if (index === 0) dot.classList.add('active');
+
+        // Click to scroll
+        dot.addEventListener('click', () => {
+            page.scrollIntoView({ behavior: 'smooth' });
+        });
+
         sideNav.appendChild(dot);
-        navDots.push(dot);
     });
-    updateActiveNav();
-}
 
-// Fallback in case scrollend never fires (e.g. already at target position).
-let scrollendFallback;
+    const dots = document.querySelectorAll('.nav-dot');
 
-function scrollToPage(index) {
-    if (index >= 0 && index < pages.length) {
-        const targetTop = pages[index].offsetTop;
+    // 2. Intersection Observer Logic
+    const observerOptions = {
+        root: container,
+        threshold: 0.4 // Adjust this! 0.4 means "Snap when 40% of the section is visible"
+    };
 
-        // If already at the destination no scroll will occur and scrollend
-        // will never fire — skip the lock entirely.
-        if (Math.abs(container.scrollTop - targetTop) < 1) {
-            currentPageIndex = index;
-            updateActiveNav();
-            return;
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const index = Array.from(pages).indexOf(entry.target);
 
-        isScrolling = true;
-        clearTimeout(scrollendFallback);
-        // Safety net: release the lock after 1 s even if scrollend is missed.
-        scrollendFallback = setTimeout(() => { isScrolling = false; }, 1000);
+                // Update dots
+                dots.forEach(dot => dot.classList.remove('active'));
+                dots[index].classList.add('active');
 
-        container.scrollTo({ top: targetTop, behavior: 'smooth' });
-        currentPageIndex = index;
-        updateActiveNav();
-    }
-}
-
-// Reset the flag only once the smooth scroll animation has truly finished,
-// eliminating the fixed-timeout guesswork entirely.
-container.addEventListener('scrollend', () => {
-    clearTimeout(scrollendFallback);
-    isScrolling = false;
-});
-
-container.addEventListener('wheel', (event) => {
-    if (isScrolling) {
-        event.preventDefault();
-        return;
-    }
-
-    const contentSection = pages[currentPageIndex].querySelector('.content-section');
-    const delta = event.deltaY;
-
-    if (delta > 0) { // Scrolling down
-        // Only advance to the next page when there is no overflowing content left
-        // to scroll through, or when there is no scrollable section at all.
-        if (contentSection) {
-            const remainingScroll = contentSection.scrollHeight - contentSection.scrollTop - contentSection.clientHeight;
-            if (remainingScroll > 1) return; // Let the internal section scroll naturally
-        }
-        if (currentPageIndex < pages.length - 1) {
-            event.preventDefault();
-            scrollToPage(currentPageIndex + 1);
-        }
-    } else { // Scrolling up
-        // Only go back to the previous page once internal content is scrolled
-        // all the way back to the top.
-        if (contentSection && contentSection.scrollTop > 0) return;
-        if (currentPageIndex > 0) {
-            event.preventDefault();
-            scrollToPage(currentPageIndex - 1);
-        }
-    }
-}, { passive: false });
-
-window.addEventListener('keydown', (event) => {
-    if (isScrolling) return;
-
-    if (event.key === 'ArrowDown') {
-        if (currentPageIndex < pages.length - 1) {
-            scrollToPage(currentPageIndex + 1);
-        }
-    } else if (event.key === 'ArrowUp') {
-        if (currentPageIndex > 0) {
-            scrollToPage(currentPageIndex - 1);
-        }
-    }
-});
-
-// Sync the active dot if the user reaches a page through a method other than
-// the wheel / keyboard handlers above (e.g. dragging a visible scrollbar).
-let scrollTimeout;
-container.addEventListener('scroll', () => {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-        if (isScrolling) return;
-        const newPageIndex = Math.round(container.scrollTop / window.innerHeight);
-        if (newPageIndex !== currentPageIndex) {
-            currentPageIndex = newPageIndex;
-            updateActiveNav();
-        }
-    }, 150);
-});
-
-function handleInitialLoad() {
-    const hash = window.location.hash;
-    if (hash) {
-        const targetPage = document.querySelector(hash);
-        if (targetPage) {
-            const pageIndex = Array.from(pages).indexOf(targetPage);
-            if (pageIndex > -1) {
-                setTimeout(() => {
-                    scrollToPage(pageIndex);
+                // Optional: Auto-snap behavior
+                // We use a small timeout to ensure we don't fight the user's finger/wheel
+                clearTimeout(window.scrollTimeout);
+                window.scrollTimeout = setTimeout(() => {
+                    entry.target.scrollIntoView({ behavior: 'smooth' });
                 }, 100);
             }
-        }
-    }
-}
+        });
+    }, observerOptions);
 
-createSideNav();
-handleInitialLoad();
-console.log("Website loaded.");
+    pages.forEach(page => observer.observe(page));
+    // 3. Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+        // Find the current active index from the dots
+        const activeDot = document.querySelector('.nav-dot.active');
+        const currentIndex = Array.from(dots).indexOf(activeDot);
+
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            if (currentIndex < pages.length - 1) {
+                e.preventDefault(); // Stop the default "small" scroll
+                pages[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            if (currentIndex > 0) {
+                e.preventDefault();
+                pages[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+            }
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            pages[0].scrollIntoView({ behavior: 'smooth' });
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            pages[pages.length - 1].scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    const html = document.documentElement;
+    const currentTheme = localStorage.getItem('theme');
+
+    // 1. Initial Theme Check
+    if (currentTheme) {
+        html.setAttribute('data-theme', currentTheme);
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        html.setAttribute('data-theme', 'light');
+    }
+
+    // find the theme toggle button and set its initial state
+    const themeBtn = document.getElementById('theme-toggle');
+    themeBtn.innerHTML = html.getAttribute('data-theme') === 'light' ? '🌙' : '☀️';
+
+    themeBtn.addEventListener('click', () => {
+        const isLight = html.getAttribute('data-theme') === 'light';
+        const newTheme = isLight ? 'dark' : 'light';
+
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        themeBtn.innerHTML = newTheme === 'light' ? '🌙' : '☀️';
+    });
+});
