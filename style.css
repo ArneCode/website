@@ -51,7 +51,7 @@ body {
 }
 
 .page {
-    height: 100vh;
+    min-height: 100vh;
     scroll-snap-align: center;
     display: flex;
     flex-direction: column;
