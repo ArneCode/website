@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.page');
     const sideNav = document.getElementById('side-nav');
 
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
     // 1. Generate Nav Dots
     pages.forEach((page, index) => {
         const dot = document.createElement('div');
@@ -19,32 +21,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dots = document.querySelectorAll('.nav-dot');
 
-    // 2. Intersection Observer Logic
-    const observerOptions = {
-        root: container,
-        threshold: 0.4 // Adjust this! 0.4 means "Snap when 40% of the section is visible"
-    };
+    if (!isMobile()) {
+        // 2. Intersection Observer Logic
+        const observerOptions = {
+            root: container,
+            threshold: 0.4 // Adjust this! 0.4 means "Snap when 40% of the section is visible"
+        };
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const index = Array.from(pages).indexOf(entry.target);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(pages).indexOf(entry.target);
 
-                // Update dots
-                dots.forEach(dot => dot.classList.remove('active'));
-                dots[index].classList.add('active');
+                    // Update dots
+                    dots.forEach(dot => dot.classList.remove('active'));
+                    dots[index].classList.add('active');
 
-                // Optional: Auto-snap behavior
-                // We use a small timeout to ensure we don't fight the user's finger/wheel
-                clearTimeout(window.scrollTimeout);
-                window.scrollTimeout = setTimeout(() => {
-                    entry.target.scrollIntoView({ behavior: 'smooth' });
-                }, 100);
-            }
-        });
-    }, observerOptions);
+                    // Optional: Auto-snap behavior
+                    // We use a small timeout to ensure we don't fight the user's finger/wheel
+                    clearTimeout(window.scrollTimeout);
+                    window.scrollTimeout = setTimeout(() => {
+                        entry.target.scrollIntoView({ behavior: 'smooth' });
+                    }, 100);
+                }
+            });
+        }, observerOptions);
 
-    pages.forEach(page => observer.observe(page));
+        pages.forEach(page => observer.observe(page));
+    }
     // 3. Keyboard Navigation
     window.addEventListener('keydown', (e) => {
         // Find the current active index from the dots
