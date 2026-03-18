@@ -4,11 +4,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arne's Website</title>
+    <title>Arne de Borman</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
-    Hi, this is my website
+    <div id="side-nav"></div>
+    <main class="container">
+        <section class="page" id="home">
+            <header>
+                <h1>Arne de Borman</h1>
+                <p>3rd Semester Student of Informatics at KIT</p>
+            </header>
+            <nav class="main-nav">
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#experience">Experience</a>
+                <a href="#education">Education</a>
+                <a href="#skills">Skills</a>
+            </nav>
+            <main>
+                <section class="links">
+                    <a href="https://github.com/ArneCode" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-github"></i> GitHub</a>
+                    <a href="https://blog.arnedebo.com" target="_blank" rel="noopener noreferrer"><i
+                            class="fas fa-blog"></i> Blog</a>
+                    <a href="mailto:arne@deborman.de"><i class="fas fa-envelope"></i> Email</a>
+                    <a href="cv.pdf" target="_blank" rel="noopener noreferrer"><i class="fas fa-file-pdf"></i> CV</a>
+                </section>
+            </main>
+        </section>
+
+        <section class="page" id="about">
+            <div class="content-section">
+                <h2>About Me</h2>
+                <p>
+                    Computer Science student at Karlsruhe Institute of Technology (KIT) with strong foundations in
+                    algorithms and theoretical computer science.
+                    Experienced in competitive programming at NWERC and GCPC level, and in backend software development
+                    using Java-based microservices.
+                    Interested in challenging software engineering problems in large-scale and performance-sensitive
+                    systems.
+                </p>
+            </div>
+        </section>
+
+        <section class="page" id="projects">
+            <div class="content-section">
+                <h2>Projects</h2>
+                <div class="card">
+                    <h3><a href="https://github.com/atigun64/electricity_price_optimizer" target="_blank"
+                            rel="noopener noreferrer">Smart-Home Optimization</a></h3>
+                    <p>Ongoing. Built an optimization engine to schedule appliance usage and EV charging under solar,
+                        battery, and grid constraints. Modeled cost minimization using simulated annealing heuristics
+                        and flow-based formulations.</p>
+                    <div class="tags">
+                        <span>Rust</span><span>Optimization Algorithms</span><span>Flow-based Formulations</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><a href="https://github.com/ArneCode/rust-calculator-yew" target="_blank"
+                            rel="noopener noreferrer">Rust Equation Solver & UI</a></h3>
+                    <p>Developed an automated solver that treats equations as symbolic structures. Implemented a search
+                        algorithm to identify sequences of equivalence transformations that reduce equations to their
+                        solutions, modeling human equation solving.</p>
+                    <div class="tags">
+                        <span>Rust</span><span>Symbolic Computation</span><span>WebAssembly</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3><a href="https://github.com/ArneCode/pinball" target="_blank" rel="noopener noreferrer">Pinball
+                            Simulation</a></h3>
+                    <p>Developed an equation-based pinball simulation featuring a custom programming language for
+                        behavior definition.</p>
+                    <div class="tags">
+                        <span>Python</span><span>Physics Modeling</span><span>Custom DSL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page" id="experience">
+            <div class="content-section">
+                <h2>Experience</h2>
+                <div class="card">
+                    <h3>Working Student, Team Account</h3>
+                    <p class="card-sub-header">ITscope GmbH | June 2025 --- November 2025</p>
+                    <p>Designed and implemented automated tests for newly developed features. Extended CRM data
+                        synchronization to support new contract workflows. Improved the contract management module and
+                        migrated an existing microservice to Java 21, resolving deprecated APIs and improving
+                        maintainability.</p>
+                    <div class="tags">
+                        <span>Java</span><span>Spring Boot</span><span>Vaadin</span><span>Microservices</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Trainee Software Developer</h3>
+                    <p class="card-sub-header">ITscope GmbH | September 2024 --- October 2024</p>
+                    <p>Refactored an Excel-based sales export tool, including GUI, business logic, and SQL queries.
+                        Collaborated on feature design and Java implementation within a Scrum-based development process.
+                        Revised and localized transactional email templates according to updated design specifications.
+                    </p>
+                    <div class="tags">
+                        <span>Java</span><span>SQL</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Working Student, Service Calculation</h3>
+                    <p class="card-sub-header">Mlog Logistics GmbH | July 2023 and September 2023</p>
+                    <p>Revised and extended the company-wide service calculation tool in close coordination with process
+                        owners, improving correctness and maintainability.</p>
+                    <div class="tags">
+                        <span>Excel VBA</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page" id="education">
+            <div class="content-section">
+                <h2>Education</h2>
+                <div class="card">
+                    <h3>Bachelor of Science in Computer Science</h3>
+                    <p class="card-sub-header">Karlsruhe Institute of Technology (KIT) | Since Winter 2024/25</p>
+                    <p>Top grades (1.0) in <em>Basic Notions of Computer Science</em>, <em>Algorithms I</em>, and
+                        <em>Theoretical Foundations of Computer Science</em>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="page" id="skills">
+            <div class="content-section">
+                <h2>Skills</h2>
+                <div class="skills-container">
+                    <div class="skill-category">
+                        <h3>Software Development</h3>
+                        <p>Java (Spring Boot, Vaadin), Rust, Python, JavaScript, VBA, HTML/CSS, Bash, SQL</p>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Competitive Programming</h3>
+                        <p>Advanced C++: algorithms, data structures and performance-oriented problem solving</p>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Technologies & Tools</h3>
+                        <p>Git, Docker, MongoDB, WebAssembly</p>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Languages</h3>
+                        <p>German (native), French (native), English (B2/C1)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="script.js"></script>
 </body>
 
 </html>
