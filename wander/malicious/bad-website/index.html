@@ -8,7 +8,14 @@
 </head>
 
 <body>
-    Website opened outside of wander window.
+    opening website outside of wander window.
+    <script>
+        // set timeout
+        setTimeout(() => {
+            // open a new window
+            window.top.open('https://arnedebo.com/wander/malicious/bad-website/hacked.html', '_blank');
+        }, 2000);
+    </script>
 </body>
 
 </html>

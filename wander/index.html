@@ -193,6 +193,19 @@
 
         function init() {
             log(`Wander ${VERSION}`)
+            window.addEventListener('message', (event) => {
+                const sandbox = document.getElementById('sandbox');
+
+                // Verify the message is coming from our specific iframe
+                if (event.source !== sandbox.contentWindow) {
+                    return; // Ignore messages from other tabs or frames
+                }
+                if (event.data.type === 'WANDER_DATA' && event.data.data) {
+                    log('Received safe data from sandbox');
+                    collectConsoles(event.data.data.consoles || []);
+                    collectPages(event.data.data.pages || []);
+                }
+            });
             initCustomStyle()
             initCustomScript()
             initListeners()
@@ -300,20 +313,8 @@
         function pickNewConsole() {
             const consoleURL = pick(filter(consoles))
             const jsURL = wanderJSURL(consoleURL)
-            const script = document.createElement('script')
-            log('Loading next console:', jsURL)
-            script.addEventListener('load', function () {
-                log('Loaded next console:', jsURL)
-                collectConsoles(window.wander.consoles)
-                collectPages(window.wander.pages)
-                script.remove()
-            })
-            script.addEventListener('error', function (e) {
-                script.remove()
-                log('Cannot load next console:', url, e, e.message)
-            })
-            script.src = jsURL
-            document.head.append(script)
+            log('Loading next console through sandbox:', jsURL)
+            document.getElementById('sandbox').contentWindow.postMessage({ type: 'LOAD_WANDER_JS', url: jsURL }, '*')
             newConsoleLink = consoleURL
         }
 
@@ -329,6 +330,15 @@
                 url += '/';
             }
             return url;
+        }
+
+        function isSafeUrl(url) {
+            try {
+                const u = new URL(url);
+                return u.protocol === "https:" || u.protocol === "http:";
+            } catch {
+                return false;
+            }
         }
 
         function collectConsoles(newConsoles) {
@@ -398,7 +408,7 @@
 
         function filter(items) {
             return items.filter(function (item) {
-                return item.startsWith(matchingProtocol())
+                return item.startsWith(matchingProtocol()) && isSafeUrl(item)
             })
         }
 
@@ -432,7 +442,25 @@
       --><button id="about-button">About</button><!--
       --><input id="url-narrow-input">
     </header>
-    <iframe id="wander-iframe"></iframe>
+    <iframe id="wander-iframe"
+        sandbox="allow-scripts allow-forms allow-popups allow-same-origin allow-modals allow-downloads allow-presentation allow-orientation-lock allow-pointer-lock allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"></iframe>
+    <iframe id="sandbox" sandbox="allow-scripts" style="display:none;" srcdoc="
+        <script>
+          window.onmessage = (e) => {
+            const script = document.createElement('script');
+            script.src = e.data.url;
+            script.addEventListener('load', () => {
+              // Send the found data back to the parent
+              window.parent.postMessage({ type: 'WANDER_DATA', data: window.wander }, '*');
+            });
+            script.addEventListener('error', (error) => {
+              // Logs the error in the sandbox console, which is visible in the browser's developer tools
+              console.error('Error loading script:', error);
+            });
+            document.head.append(script);
+          };
+        </script>
+      "></iframe>
     <dialog id="console-dialog">
         <header>
             <h1>Console Explorer</h1>
