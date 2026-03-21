@@ -5,7 +5,8 @@ window.wander = {
     ],
     // My favourite websites and pages I recommend to the Wander community.
     pages: [
-        'https://blog.arnedebo.com/posts/test-post/'
+        'https://blog.arnedebo.com/',
+        'https://arnedebo.com'
     ],
 }
 

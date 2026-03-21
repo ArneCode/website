@@ -194,6 +194,7 @@
         function init() {
             log(`Wander ${VERSION}`)
             window.addEventListener('message', (event) => {
+                log('Received message:', event.data);
                 const sandbox = document.getElementById('sandbox');
 
                 // Verify the message is coming from our specific iframe
@@ -204,6 +205,9 @@
                     log('Received safe data from sandbox');
                     collectConsoles(event.data.data.consoles || []);
                     collectPages(event.data.data.pages || []);
+                }
+                else if (event.data.type === 'WANDER_ERROR' && event.data.error) {
+                    log('Error loading wander.js in sandbox:', event.data.error);
                 }
             });
             initCustomStyle()
@@ -455,7 +459,7 @@
             });
             script.addEventListener('error', (error) => {
               // Logs the error in the sandbox console, which is visible in the browser's developer tools
-              console.error('Error loading script:', error);
+              window.parent.postMessage({ type: 'WANDER_ERROR', error: error }, '*');
             });
             document.head.append(script);
           };
